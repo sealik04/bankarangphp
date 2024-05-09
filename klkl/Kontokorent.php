@@ -8,7 +8,7 @@ class Kontokorent extends Ucet
     public function __construct()
     {
         parent::__construct();
-        $this->zustatekKontokorentu = 10000;
+        $this->zustatekKontokorentu = 0;
     }
 
     public function getZustatekKontokorentu()
@@ -19,13 +19,25 @@ class Kontokorent extends Ucet
 
     public function vklad($castka)
     {
-        $this->zustatekKontokorentu += $castka;
+        if ($this->zustatekKontokorentu < 0) {
+
+            $this->zustatekKontokorentu += $castka;
+
+            if ($this->zustatekKontokorentu > 0) {
+                $this->castka += $this->zustatekKontokorentu;
+                $this->zustatekKontokorentu = 0;
+            }
+        }else {
+            $this->castka += $castka;
+        }
     }
 
     public function vyber($castka)
     {
-        if($this->zustatekKontokorentu > -10000 && $this->zustatekKontokorentu < 10000 || $this->zustatekKontokorentu > -10000 && $this->zustatekKontokorentu < 10000 & $this->zustatek == 0){
-            $this->zustatekKontokorentu -= $castka;
+    if ($castka > $this->getZustatek() && $this->zustatekKontokorentu > -10000) {
+    $difference = $castka - $this->zustatek;
+        $this->zustatek = 0;
+        $this->zustatekKontokorentu -= $difference;
         }
     }
 }

@@ -24,6 +24,13 @@ if (isset($_POST['ok'])) {
     if ($castkaVy > 0){
         $Ucet->vyber($castkaVy);
     }
+    if($castkaVy > $Ucet->zustatek){
+        $Kontokorent->vyber($castkaVy);
+    }
+    if($Kontokorent->zustatekKontokorentu < 0){
+        $Kontokorent->vklad($castkaVk);
+        $Ucet->zustatek = $Kontokorent->getZustatek();
+    }
 
     $Ucet->setKontokorent($Kontokorent);
 }
